@@ -29,7 +29,7 @@
                     <tbody>
                         @forelse ($barangMasuk as $barang)
                             <tr>
-                                <td>{{ $barang->nama_barang }}</td>
+                                <td>{{ $barang->nama_barang ?? '-' }}</td>
                                 <td>{{ $barang->jumlah }}</td>
                                 <td>{{ \Carbon\Carbon::parse($barang->tanggal_masuk)->translatedFormat('d M Y') }}</td>
                                 <td class="text-center">

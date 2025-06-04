@@ -1,167 +1,213 @@
 @extends('layouts.staff')
 
 @section('content')
-<div class="header-card mb-4">
-    <div class="d-flex justify-content-between align-items-center">
-        <div>
-            <h3>Selamat datang, {{ Auth::user()->name }}</h3>
-            <p class="mb-0">Pantau dan kelola stok dengan mudah dari dashboard ini.</p>
-        </div>
-        <div>
-            <i class="bi bi-person-circle" style="font-size: 40px;"></i>
+<div class="container-fluid py-4">
+    <!-- Welcome Card -->
+    <div class="card bg-primary text-white mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="card-title mb-1">Selamat Datang, {{ Auth::user()->name }}</h3>
+                    <p class="card-text opacity-75 mb-0">Kelola stok dengan mudah dari dashboard ini.</p>
+                </div>
+                <div class="bg-white bg-opacity-25 p-3 rounded-circle">
+                    <i class="bi bi-person-circle fs-2"></i>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="row mb-4">
-    <div class="col-md-4">
-        <div class="card card-statistic bg-gradient-primary shadow-lg">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5 class="card-title text-white">Barang Masuk</h5>
-                        <h2 class="mb-0 text-white">{{ $jumlahBarangMasuk }}</h2>
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-4">
+        <!-- Barang Masuk -->
+        <div class="col-md-4">
+            <div class="card bg-gradient-indigo text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title opacity-75">Barang Masuk</h5>
+                            <h2 class="card-text fw-bold">{{ $jumlahBarangMasuk }}</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 p-3 rounded-circle">
+                            <i class="bi bi-box-arrow-in-down fs-2"></i>
+                        </div>
                     </div>
-                    <div class="icon">
-                        <i class="bi bi-box-arrow-in-down text-white" style="font-size: 2.5rem;"></i>
+                    <div class="progress mt-3 bg-white bg-opacity-25" style="height: 5px;">
+                        <div class="progress-bar bg-white" style="width: 75%"></div>
                     </div>
-                </div>
-                <div class="progress mt-3" style="height: 5px;">
-                    <div class="progress-bar bg-white" role="progressbar" style="width: 75%"></div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card card-statistic bg-gradient-success shadow-lg">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5 class="card-title text-white">Barang Keluar</h5>
-                        <h2 class="mb-0 text-white">{{ $jumlahBarangKeluar }}</h2>
-                    </div>
-                    <div class="icon">
-                        <i class="bi bi-box-arrow-up text-white" style="font-size: 2.5rem;"></i>
-                    </div>
-                </div>
-                <div class="progress mt-3" style="height: 5px;">
-                    <div class="progress-bar bg-white" role="progressbar" style="width: 60%"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card card-statistic bg-gradient-info shadow-lg">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5 class="card-title text-white">Aktivitas</h5>
-                        <h2 class="mb-0 text-white">{{ count($aktivitas) }}</h2>
-                    </div>
-                    <div class="icon">
-                        <i class="bi bi-activity text-white" style="font-size: 2.5rem;"></i>
-                    </div>
-                </div>
-                <div class="progress mt-3" style="height: 5px;">
-                    <div class="progress-bar bg-white" role="progressbar" style="width: 45%"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-md-8">
-        <div class="card shadow-sm mb-4">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Aktivitas Terakhir</h5>
+        <!-- Barang Keluar -->
+        <div class="col-md-4">
+            <div class="card bg-gradient-teal text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title opacity-75">Barang Keluar</h5>
+                            <h2 class="card-text fw-bold">{{ $jumlahBarangKeluar }}</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 p-3 rounded-circle">
+                            <i class="bi bi-box-arrow-up fs-2"></i>
+                        </div>
+                    </div>
+                    <div class="progress mt-3 bg-white bg-opacity-25" style="height: 5px;">
+                        <div class="progress-bar bg-white" style="width: 60%"></div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <div class="list-group">
-                    @forelse ($aktivitas as $item)
-                        <div class="list-group-item border-0 d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
-                                <i class="bi bi-box-seam me-3 text-primary" style="font-size: 1.5rem;"></i>
-                                <div>
-                                    <h6 class="mb-0">{{ $item['judul'] }}</h6>
-                                    <small class="text-muted">{{ $item['waktu'] }}</small>
+        </div>
+
+        <!-- Aktivitas -->
+        <div class="col-md-4">
+            <div class="card bg-gradient-blue text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title opacity-75">Aktivitas</h5>
+                            <h2 class="card-text fw-bold">{{ count($aktivitas) }}</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 p-3 rounded-circle">
+                            <i class="bi bi-activity fs-2"></i>
+                        </div>
+                    </div>
+                    <div class="progress mt-3 bg-white bg-opacity-25" style="height: 5px;">
+                        <div class="progress-bar bg-white" style="width: 45%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="row g-4">
+        <!-- Aktivitas Terakhir -->
+        <div class="col-lg-8">
+            <div class="card h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Aktivitas Terakhir</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group list-group-flush">
+                        @forelse ($aktivitas as $item)
+                            @php
+                                $status = $item['status'];
+                                $badgeClass = match($status) {
+                                    'Keluar' => 'bg-danger bg-opacity-10 text-danger',
+                                    'Masuk' => 'bg-primary bg-opacity-10 text-primary',
+                                    default => 'bg-secondary bg-opacity-10 text-secondary',
+                                };
+                            @endphp
+                            <div class="list-group-item border-0 py-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3">
+                                            <i class="bi bi-box-seam text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">{{ $item['judul'] }}</h6>
+                                            <small class="text-muted">{{ $item['waktu'] }}</small>
+                                        </div>
+                                    </div>
+                                    <span class="badge rounded-pill {{ $badgeClass }}">{{ $status }}</span>
                                 </div>
                             </div>
-                            <span class="badge bg-primary rounded-pill">{{ $item['status'] }}</span>
-                        </div>
-                    @empty
-                        <p class="text-muted">Belum ada aktivitas.</p>
-                    @endforelse
+                        @empty
+                            <div class="text-center py-5 text-muted">
+                                <i class="bi bi-inbox fs-1"></i>
+                                <p class="mt-2">Belum ada aktivitas</p>
+                            </div>
+                        @endforelse
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm">
-            <div class="card-header bg-white">
-                <h5 class="mb-0">Stok Hampir Habis</h5>
-            </div>
-            <div class="card-body">
-                @if($barangHampirHabis->count() > 0)
-                    <div class="alert alert-warning d-flex align-items-center">
-                        <i class="bi bi-exclamation-triangle-fill me-2" style="font-size: 1.5rem;"></i>
-                        <div>
-                            <strong>Perhatian!</strong> {{ $barangHampirHabis->count() }} item stok hampir habis.
+
+        <!-- Barang Hampir Habis -->
+        <div class="col-lg-4">
+            <div class="card h-100">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">Barang Hampir Habis</h5>
+                </div>
+                <div class="card-body">
+                    @if($barangHampirHabis && $barangHampirHabis->count())
+                        <div class="alert alert-warning d-flex align-items-center">
+                            <i class="bi bi-exclamation-triangle-fill fs-4 me-2"></i>
+                            <div>
+                                <strong>Perhatian!</strong> Terdapat {{ $barangHampirHabis->count() }} item dengan stok hampir habis!
+                            </div>
                         </div>
-                    </div>
-                    <ul class="list-group">
-                        @foreach($barangHampirHabis as $barang)
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                {{ $barang->nama_barang }}
-                                <span class="badge bg-warning rounded-pill">{{ $barang->jumlah }}</span>
-                            </li>
-                        @endforeach
-                    </ul>
-                @else
-                    <p class="text-muted">Tidak ada barang dengan stok rendah.</p>
-                @endif
+                        <div class="list-group">
+                            @foreach($barangHampirHabis as $barang)
+                                <div class="list-group-item border-0 py-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-danger bg-opacity-10 p-2 rounded-circle me-3">
+                                            <i class="bi bi-exclamation-circle-fill text-danger"></i>
+                                        </div>
+                                        <div>
+                                            <p class="mb-0 fw-bold">{{ $barang->nama_barang }}</p>
+                                            <small class="text-muted">Stok: {{ $barang->stok }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="text-center py-4 text-muted">
+                            <i class="bi bi-check-circle-fill fs-1 text-success"></i>
+                            <p class="mt-2">Tidak ada barang dengan stok rendah</p>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    .header-card {
-        background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
-        color: white;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    /* Custom gradients */
+    .bg-gradient-indigo {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
-
-    .card-statistic {
-        border-radius: 10px;
+    
+    .bg-gradient-teal {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    }
+    
+    .bg-gradient-blue {
+        background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+    }
+    
+    /* Card hover effects */
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         border: none;
-        transition: all 0.3s ease;
+        border-radius: 12px;
+        overflow: hidden;
     }
-
-    .card-statistic:hover {
+    
+    .card:hover {
         transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     }
-
-    .bg-gradient-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    
+    /* List group items */
+    .list-group-item {
+        transition: background-color 0.2s ease;
     }
-
-    .bg-gradient-success {
-        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important;
+    
+    .list-group-item:hover {
+        background-color: #f8f9fa;
     }
-
-    .bg-gradient-info {
-        background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%) !important;
+    
+    /* Progress bars */
+    .progress {
+        border-radius: 100px;
     }
-
-    .shadow-lg {
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .shadow-sm {
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    
+    .progress-bar {
+        border-radius: 100px;
     }
 </style>
 @endsection

@@ -1,3 +1,4 @@
+{{-- resources/views/staff/barang-masuk/create.blade.php --}}
 @extends('layouts.staff')
 
 @section('content')
@@ -50,17 +51,6 @@
                             <input type="date" name="tanggal_masuk" class="form-control" required>
                         </div>
                     </div>
-                    
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Supplier (Opsional)</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light">
-                                <i class="bi bi-truck text-primary"></i>
-                            </span>
-                            <input type="text" name="supplier" class="form-control"
-                                   placeholder="Nama supplier">
-                        </div>
-                    </div>
                 </div>
                 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
@@ -75,32 +65,4 @@
         </div>
     </div>
 </div>
-
-<style>
-    .card {
-        border: none;
-        transition: transform 0.3s ease;
-    }
-    
-    .card:hover {
-        transform: translateY(-2px);
-    }
-    
-    .form-control, .input-group-text {
-        border-radius: 0.375rem;
-    }
-    
-    .input-group-text {
-        transition: all 0.3s ease;
-    }
-    
-    .form-control:focus + .input-group-text {
-        background-color: #e9ecef;
-    }
-    
-    .btn-success {
-        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-        border: none;
-    }
-</style>
 @endsection

@@ -75,7 +75,7 @@
         }
 
         .input-group-text {
-            background-color: #f8f9fc;
+            background-color:rgba(107, 118, 174, 0.46);
             border-right: none;
         }
 
