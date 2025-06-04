@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BarangKeluar;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 
 class BarangKeluarController extends Controller
@@ -27,11 +28,18 @@ class BarangKeluarController extends Controller
             'catatan' => 'nullable|string',
         ]);
 
-        BarangKeluar::create([
+        $barang = BarangKeluar::create([
             'nama_barang' => $request->nama_barang,
             'jumlah' => $request->jumlah,
             'tanggal_keluar' => $request->tanggal_keluar,
             'catatan' => $request->catatan,
+        ]);
+
+        // Simpan log aktivitas
+        ActivityLog::create([
+            'activity' => 'Pengiriman barang keluar: ' . $request->nama_barang,
+            'type' => 'keluar',
+            'user_id' => auth()->id(),
         ]);
 
         return redirect()->route('barang-keluar.index')->with('success', 'Data berhasil ditambahkan.');
@@ -60,12 +68,29 @@ class BarangKeluarController extends Controller
             'catatan' => $request->catatan,
         ]);
 
+        // Simpan log aktivitas
+        ActivityLog::create([
+            'activity' => 'Barang keluar diupdate: ' . $request->nama_barang,
+            'type' => 'keluar',
+            'user_id' => auth()->id(),
+        ]);
+
         return redirect()->route('barang-keluar.index')->with('success', 'Data berhasil diupdate.');
     }
 
     public function destroy($id)
     {
-        BarangKeluar::destroy($id);
+        $barang = BarangKeluar::findOrFail($id);
+        $namaBarang = $barang->nama_barang;
+        $barang->delete();
+
+        // Simpan log aktivitas
+        ActivityLog::create([
+            'activity' => 'Barang keluar dihapus: ' . $namaBarang,
+            'type' => 'keluar',
+            'user_id' => auth()->id(),
+        ]);
+
         return back()->with('success', 'Data berhasil dihapus.');
     }
 }
