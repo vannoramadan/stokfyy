@@ -1,10 +1,13 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\BarangKeluarController;
-use App\Http\Controllers\DashboardController; // tambahkan ini
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StokController;
+
 
 // Login & Logout
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -43,8 +46,10 @@ Route::middleware('auth')->group(function () {
     // Staf Gudang
     Route::prefix('staff')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index']); // ⬅ diubah dari view ke controller
-
         Route::resource('/barang-masuk', BarangMasukController::class);
         Route::resource('/barang-keluar', BarangKeluarController::class);
+        Route::get('/staff/cek-stok', [StokController::class, 'form'])->name('staff.cek-stok.form');
+        Route::post('/staff/cek-stok', [StokController::class, 'cekStok'])->name('staff.cek-stok.result');
+
     });
 });
