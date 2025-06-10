@@ -5,8 +5,16 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\BarangKeluarController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StokController;
+use App\Http\Controllers\DashboardController as StaffDashboardController;
+use App\Http\Controllers\Manager\DashboardController as ManagerDashboardController;
+use App\Http\Controllers\Manager\CategoryController;
+use App\Http\Controllers\Manager\ProductController;
+use App\Http\Controllers\Manager\StockTransactionController;
+use App\Http\Controllers\Manager\StockOpnameController;
+use App\Http\Controllers\Manager\SupplierController;
+use App\Http\Controllers\Manager\ReportController;
+
 
 
 // Login & Logout
@@ -30,6 +38,27 @@ Route::get('/dashboard', function () {
     }
 })->middleware('auth');
 
+
+Route::prefix('manager')->name('manager.')->group(function () {
+    Route::get('/dashboard', [ManagerDashboardController::class, 'index'])->name('dashboard'); // untuk manager
+
+    // hasilnya: manager.dashboard ✅
+
+    Route::resource('categories', CategoryController::class);
+    Route::resource('products', ProductController::class);
+    Route::resource('stock', StockTransactionController::class);
+
+    Route::get('opname', [StockOpnameController::class, 'index'])->name('opname.index');
+    Route::post('opname', [StockOpnameController::class, 'store'])->name('opname.store');
+
+    Route::resource('suppliers', SupplierController::class);
+
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index'); // <- Ini penting
+
+    Route::get('report/stock', [ReportController::class, 'stockReport'])->name('report.stock');
+    Route::get('report/transaction', [ReportController::class, 'transactionReport'])->name('report.transaction');
+});
+
 // Route khusus berdasarkan role
 Route::middleware('auth')->group(function () {
 
@@ -45,7 +74,8 @@ Route::middleware('auth')->group(function () {
 
     // Staf Gudang
     Route::prefix('staff')->group(function () {
-        Route::get('/dashboard', [DashboardController::class, 'index']); // ⬅ diubah dari view ke controller
+        Route::get('/staff/dashboard', [StaffDashboardController::class, 'index']); // untuk staff
+// ⬅ diubah dari view ke controller
         Route::resource('/barang-masuk', BarangMasukController::class);
         Route::resource('/barang-keluar', BarangKeluarController::class);
         Route::get('/staff/cek-stok', [StokController::class, 'form'])->name('staff.cek-stok.form');
@@ -53,3 +83,8 @@ Route::middleware('auth')->group(function () {
 
     });
 });
+
+
+// Jika ada controller lain juga tambahkan:
+// ...dan lainnya
+
